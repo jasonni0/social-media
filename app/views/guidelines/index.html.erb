@@ -1,0 +1,21 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1>Guidelines</h1>
+    <ul>
+        <% @guidelines.each do |guideline| %>
+        <li>
+            <%= guideline.guideline %>
+            <% if current_user.is_admin %>
+                <br /><%= link_to image_tag("delete.png", size: "30x30"), guideline_path(guideline), method: :delete %>
+            <% end %>
+        </li>
+        <% end %>
+    </ul>
+    <% if current_user.is_admin %>
+        <div class="mb-3">
+        <%= link_to "Add", new_guideline_path, class: "btn btn-primary" %>
+        </div>
+        <%= link_to "Back", reports_path, class: "btn btn-outline-primary" %>
+    <% end %>
+  </div>
+</div>

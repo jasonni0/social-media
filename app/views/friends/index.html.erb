@@ -1,0 +1,34 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1><center><%= @user.full_name %>'s Friends</center></h1>
+    <table class="table table-borderless">
+      <thead class="thead">
+        <tr>
+            <th>Name</th>
+            <th>Friends Since</th>
+            <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @friend.each do |f| %>
+          <tr>
+            <td><%= link_to f.full_name, user_path(f) %></td>
+            <td><%=f.updated_at.month%>/<%=f.updated_at.day%>/<%=f.updated_at.year%></td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                 </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li><%= link_to "Send Message", user_friend_message_path(@user, f), class: "dropdown-item" %></li>
+                  <li><%= link_to "Unfriend", user_friend_path(@user, f), method: :delete, class: "dropdown-item" %></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

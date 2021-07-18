@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project App</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <main role="main" class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <% if user_signed_in? %>
+            <% if current_user.is_admin? %>
+              <%= link_to 'Social-Media', reports_path(current_user), class: "navbar-brand" %>
+            <% else %>
+              <%= link_to 'Social-Media', user_posts_path(current_user), class: "navbar-brand" %>
+            <% end %>
+          <% else %>
+            <%= link_to 'Social-Media', home_path, class: "navbar-brand" %>
+          <% end %>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+              <% if user_signed_in? %>
+                <% if current_user.is_admin? %>
+                  <li class="nav-item">
+                    <%= link_to 'Guideline', guidelines_path, class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to current_user.full_name, reports_path, class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "nav-link" %>
+                  </li>
+                <% else %>
+                  <li class="nav-item">
+                    <%= link_to 'Profile', user_path(current_user), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Friends', user_friends_path(current_user), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Search Friends', home_path, class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Friend Requests', user_requests_path(current_user), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Make Post', new_user_post_path(current_user), class: "nav-link" %>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                      <%= current_user.full_name %>
+                    </a>
+                    <div class="dropdown-menu">
+                        <%= link_to 'Guidelines', guidelines_path, class: "dropdown-item" %>
+                        <%= link_to 'User Settings', edit_user_registration_path, class: "dropdown-item" %>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "nav-link" %>
+                  </li>
+                <% end %>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <% flash.each do |key, message| %>
+        <div class="alert <%= flash_class(key) %> alert-dismissible fade show text-center" role="alert">
+          <%= message %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </main>
+  </body>
+</html>

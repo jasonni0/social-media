@@ -1,0 +1,15 @@
+# == Schema Information
+#
+# Table name: guidelines
+#
+#  id         :bigint           not null, primary key
+#  guideline  :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  guideline: MyString
+
+two:
+  guideline: MyString

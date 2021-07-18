@@ -1,0 +1,27 @@
+@import "bootstrap/scss/bootstrap";
+
+.chatbox {
+    background-color: black;
+    border: 3px solid black;
+}
+
+.friend_message {
+    margin: 20px;
+    background-color: rgb(3, 78, 148);
+    border: 1px solid black;
+    border-radius: 5px;
+
+}
+
+.user_message {
+    
+    margin: 20px;
+    background-color: grey;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.text {
+    margin: 5px;
+    color: white;
+}

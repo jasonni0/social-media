@@ -1,0 +1,47 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <div class="jumbotron">
+        <em>Created by <%= @post.creator.full_name %></em>
+        <h1><%= @post.title %></h1>
+        <h1 class="text-success"><%= @post.description %></h1>
+        <div class="jumbotron">
+            <% @comments.each do |comment| %>
+                <p class="text-info"><%= comment.commenter.full_name %>: <%= comment.comment_post %>
+            <% end %>
+            <% if !current_user.is_admin %>
+              <div style="text-align: right;">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Report Comment
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <% @comments.each do |comment| %>
+                      <% if @user != comment.commenter %>
+                        <li><%= link_to "#{comment.commenter.full_name}: #{comment.comment_post}", new_post_comment_report_path(@user, @post, comment), class: "dropdown-item" %></li>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+                <div class="dropdown pt-3">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    Delete Comment
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <% @comments.each do |comment| %>
+                      <% if current_user == comment.commenter %>
+                        <li><%= link_to "#{comment.comment_post}", user_post_comment_path(current_user, @post, comment), method: :delete, class: "dropdown-item" %></li>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+        </div>
+    </div>
+    <% if current_user.is_admin %>
+      <%= link_to 'Back', reports_path, class: 'btn btn-outline-primary' %>
+    <% else %>
+      <%= link_to 'Back', user_posts_path(current_user), class: "btn btn-outline-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="col-12 pt-3">
+    <div class="container">
+        <h1><center><%= @user.full_name %>'s Feed</center></h1>
+        <div class="row">
+            <div class="col-12">
+                <% @posts.each do |post| %>
+                    <div class="card p-3">
+                        <h4><%= link_to post.title, user_post_comments_path(@user, post) %></h4>
+                        <p><%= truncate post.description, length: 200 %></p>
+                        <em class="text-muted">Created by <%= post.creator.full_name %></em>
+                        <div class="pt-3">
+                            <%= link_to image_tag("like.png", size: "40x40"), user_post_react_likes_path(@user, post), method: :post %>
+                            <%= post.likes %>
+                            <%= link_to image_tag("dislike.png", size: "40x40"), user_post_react_dislikes_path(@user, post), method: :post %>
+                            <%= post.dislikes %>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <li><%= link_to "Comment", new_user_post_comment_path(@user, post), class: "dropdown-item" %></li>
+                                    <li><%= link_to "Report", new_post_report_path(@user, post), class: "dropdown-item" %></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

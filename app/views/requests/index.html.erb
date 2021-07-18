@@ -1,0 +1,26 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1><center><%= @user.full_name %>'s Requests</center></h1>
+    <table class="table table-borderless">
+      <thead class="thead">
+        <tr>
+          <th>Name</th>
+          <th>Date Sent</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pendings.each do |p| %>
+          <tr>
+            <td><%= p.requester.full_name%></td>
+            <td><%=p.updated_at.month%>/<%=p.updated_at.day%>/<%=p.updated_at.year%></td>
+            <td>
+                <%= link_to image_tag("accept.png", size: "25x25"), user_request_accepted_path(@user, p.requester), method: :post %>
+                <%= link_to image_tag("deny.png", size: "25x25"), user_friend_path(@user, p.requester), method: :delete %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

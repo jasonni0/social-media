@@ -1,0 +1,45 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <% if !user_signed_in? %>
+      <h1>WHY YOU SHOULD JOIN US</h1>
+      <ul>
+          <li> To stay in touch with what friends are doing</li>
+          <li> To fill up spare time</li>
+          <li> To find funny or entertaining content</li>
+          <li> General networking with other people</li>
+          <li> Because friends are already on them</li>
+          <li> To share thoughts or experiences with others</li>
+          <li> To meet new people</li>
+      </ul>
+      <p>JOIN US TODAY</p>
+    <% end %>
+
+    <h1>Looking For Someone? (Search by Their Name)</h1>
+    <%= form_tag(home_path, :method => "get", class: 'navbar-form navbar-left') do %>  
+      <div class="input-group">  
+        <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>  
+        <div class="input-group-btn">  
+          <%= button_tag "Search", :class => 'button btn btn-primary'%>  
+        </div>  
+      </div>  
+    <% end %>
+
+    <div class="pt-3">
+      <h2>Search Result</h2>
+    </div>
+    <% if !params[:search].blank? %>
+      <% @results.each do |result| %>
+        <ul>
+          <% if !result.is_admin && result.is_public %>
+            <li>
+              <%= link_to result.full_name, user_path(result) %>
+              <% if user_signed_in? && result != current_user && !@friend.include?(result) %>
+                <%= link_to image_tag("send_request.png", size: "25x25"), user_request_pending_path(current_user, result) %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  </div>
+</div>

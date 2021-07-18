@@ -1,0 +1,43 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1>Admin Page</h1>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Reportee ID</th>
+          <th>Type and ID</th>
+          <th>Reason</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @reports.each do |report| %>
+            <tr>
+                <td><%= report.id %></td>
+                <td><%= link_to report.reportable.user_id, user_path(report.reportable.user_id) %></td> 
+                <td><%= report.reportable_type %> <%= link_to report.reportable_id, user_post_comments_path(report.reportable.user_id,report.reportable_id) %></td>
+                <td><%= report.reason %></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <li><%= link_to "Delete Report", report_path(report), method: :delete, class: "dropdown-item" %></li>
+                            <li><%= link_to "Delete User", user_path(report.reportable.user_id), method: :delete, data: {confirm: " Are You Sure?"}, class: "dropdown-item" %></li>
+                            <% if report.reportable_type == "Post" %>
+                              <li><%= link_to "Delete Post", user_post_path(report.reportable.user_id, report.reportable_id), method: :delete, class: "dropdown-item" %></li>
+                            <% else %>
+                              <li><%= link_to "Delete Comment", user_post_comment_path(report.reportable.user_id, report.reportable.post, report.reportable_id), method: :delete, class: "dropdown-item" %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

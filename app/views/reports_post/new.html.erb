@@ -1,0 +1,12 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1>Create New Post Report</h1>
+    <div class="jumbotron">
+        <%= bootstrap_form_with model: @report, url: user_post_reports_path(@user, @post), method: :post, local: true do |f| %>
+            <%= f.text_area :reason %>
+            <%= f.submit %>
+        <% end %>
+    </div>
+    <%= link_to 'Back', user_posts_path(@user), class: "btn btn-outline-primary" %>
+  </div>
+</div>

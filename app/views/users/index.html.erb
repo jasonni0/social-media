@@ -1,0 +1,63 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1><center><%= @user.full_name %>'s Profile</center></h1>
+    <div class="row">
+      <div class="col-8">
+        <p class="h5">Posts</p>
+        <% @user.posts.each do |post| %>
+          <div class="card p-3">
+            <h4><%= link_to post.title, user_post_comments_path(@user, post) %></h4>
+            <p><%= truncate post.description, length: 200 %></p>
+            <em class="text-muted">Created by <%= post.creator.full_name %></em>
+            <div class="pt-3">
+              <%= image_tag("like.png", size: "40x40") %>
+              <%= post.likes %>
+              <%= image_tag("dislike.png", size: "40x40") %>
+              <%= post.dislikes %>
+              <% if current_user == post.creator %>
+                <div style="text-align: right;">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                      Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                      <li><%= link_to "Edit", edit_user_post_path(@user, post), class: "dropdown-item" %></li>
+                      <li><%= link_to "Delete", user_post_path(@user, post), method: :delete , class: "dropdown-item" %></li>
+                    </ul>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-4">
+          <p class="h5">Friends</p>
+          <div class="card">
+            <ul class="list-group list-group-flush">
+              <% @friend.each do |f| %>
+                <% if current_user.present? %>
+                  <% if @currFriend.include?(f) || f == current_user %>
+                    <li class="list-group-item"><%= link_to f.full_name, user_path(f) %></li>
+                  <% else %>
+                    <li class="list-group-item"><%= f.full_name %></li>
+                  <% end %>
+                <% else %>
+                  <li class="list-group-item"><%= f.full_name %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <div class="pt-3">
+      <% if current_user.present? %>
+        <% if current_user.is_admin %>
+          <%= link_to 'Back', reports_path, class: 'btn btn-outline-primary' %>
+        <% end %>
+      <% else %>
+        <%= link_to 'Back', home_path, class: 'btn btn-outline-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>

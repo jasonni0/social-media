@@ -1,0 +1,12 @@
+<div class="col-12 pt-3">
+  <div class="container">
+    <h1>Create New Guideline</h1>
+    <div class="jumbotron">
+        <%= bootstrap_form_with model: @guideline, url: guidelines_path, method: :post, local: true do |f| %>
+            <%= f.text_area :guideline %>
+            <%= f.submit %>
+        <% end %>
+    </div>
+    <%= link_to "Back", guidelines_path, class: "btn btn-primary" %>
+  </div>
+</div>
